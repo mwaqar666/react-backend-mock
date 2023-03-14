@@ -8,10 +8,12 @@ use Illuminate\Validation\Rules\Enum;
 
 class UpdateTodoRequest extends FormRequest {
     final public function rules(): array {
+        $allowedTodoStatuses = implode(",", TodoStatus::names());
+
         return [
             "name" => ["required", "string", "min:3", "max:255"],
             "description" => ["nullable", "string", "max:3000"],
-            "status" => ["nullable", new Enum(TodoStatus::class)],
+            "status" => ["nullable", "in:$allowedTodoStatuses"],
         ];
     }
 }
